@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimpleBlog.Application.Interfaces;
 using System.Net.WebSockets;
 
-namespace SimpleBlog.Controllers;
+namespace SimpleBlog.Api.Controllers;
 
-public class WebSocketController : ControllerBase
+public class WebSocketController(IWebSocketService webSocketService) : ControllerBase
 {
+    private readonly IWebSocketService _webSocketService = webSocketService;
+
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/ws")]
     public async Task Get()
@@ -12,6 +15,10 @@ public class WebSocketController : ControllerBase
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+
+            string connectionId = Guid.NewGuid().ToString();
+            _webSocketService.AddConnection(connectionId, webSocket);
+
             await Echo(webSocket);
         }
         else

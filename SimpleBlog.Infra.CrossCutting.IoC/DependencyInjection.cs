@@ -21,6 +21,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPostService, PostService>();
+        services.AddSingleton<IWebSocketService, WebSocketService>();
 
         services.AddScoped<IRequestHandler<CreatePostCommand, Post>, CreatePostCommandHandler>();
         services.AddScoped<IRequestHandler<UpdatePostCommand, Post>, UpdatePostCommandHandler>();
