@@ -3,15 +3,12 @@ using Microsoft.OpenApi.Models;
 using SimpleBlog.Api.Mapping;
 using SimpleBlog.Infra.CrossCutting.IoC;
 using SimpleBlog.Infra.Data.Context;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-//builder.Services.AddDbContext<TodoContext>(opt =>
-//    opt.UseInMemoryDatabase("TodoList"));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -32,14 +29,9 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAutoMapper(x => x.AddProfile<MappingProfile>());
 
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-});
-
 builder.Services.AddDbContext<AppDatabaseContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SimpleBlog.Api"));
 });
 
 DependencyInjection.RegisterServices(builder.Services);
