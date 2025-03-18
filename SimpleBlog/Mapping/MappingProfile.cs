@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SimpleBlog.Application.Commands.PostCommand;
+using SimpleBlog.Application.Commands.UserCommand;
 using SimpleBlog.Application.ViewModels;
 using SimpleBlog.Domain.Models;
 
@@ -9,7 +11,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         EntityToViewModel();
-        ViewModelToEntity();
+        ViewModelToCommand();
     }
 
     private void EntityToViewModel()
@@ -18,9 +20,11 @@ public class MappingProfile : Profile
         CreateMap<Post, PostViewModel>();
     }
 
-    private void ViewModelToEntity()
+    private void ViewModelToCommand()
     {
-        CreateMap<UserViewModel, User>();
-        CreateMap<PostViewModel, Post>();
+        CreateMap<UserViewModel, CreateUserCommand>();
+        CreateMap<UserViewModel, UpdateUserCommand>();
+        CreateMap<PostViewModel, CreatePostCommand>();
+        CreateMap<PostViewModel, UpdatePostCommand>();
     }
 }
