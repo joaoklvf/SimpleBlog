@@ -44,6 +44,8 @@ public class UserMapping : IEntityTypeConfiguration<User>
 
         builder.HasMany(u => u.Posts)
             .WithOne(u => u.Author)
+            .HasForeignKey(u => u.AuthorId)
+            .HasPrincipalKey(u => u.Id)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

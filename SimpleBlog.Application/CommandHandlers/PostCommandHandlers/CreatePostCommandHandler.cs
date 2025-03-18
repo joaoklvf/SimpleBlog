@@ -15,7 +15,7 @@ public class CreatePostCommandHandler(IUnitOfWork unitOfWork, IEventBus bus) : I
     public async Task<Post> Handle(CreatePostCommand request, CancellationToken cancellationToken)
     {
         var user = _unitOfWork.UserRepository.GetById(request.AuthorId) ?? throw new InvalidOperationException("Autor não encontrado.");
-        var newPost = new Post(Guid.NewGuid(), user, request.Title, request.Content);
+        var newPost = new Post(Guid.NewGuid(), request.AuthorId, request.Title, request.Content);
 
         _unitOfWork.PostRepository.Create(newPost);
 
@@ -24,7 +24,7 @@ public class CreatePostCommandHandler(IUnitOfWork unitOfWork, IEventBus bus) : I
         var postNofication = new PostNotification(newPost);
 
         await _bus.Publish(postNofication);
-
+        
         return newPost;
     }
 }

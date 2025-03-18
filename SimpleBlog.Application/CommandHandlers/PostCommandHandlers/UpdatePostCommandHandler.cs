@@ -12,10 +12,9 @@ public class UpdatePostCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
     public async Task<Post> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
     {
         _ = _unitOfWork.PostRepository.GetById(request.Id) ?? throw new InvalidOperationException("Post não encontrado.");
+        _ = _unitOfWork.UserRepository.GetById(request.AuthorId) ?? throw new InvalidOperationException("Autor não encontrado.");
 
-        var user = _unitOfWork.UserRepository.GetById(request.AuthorId) ?? throw new InvalidOperationException("Autor não encontrado.");
-
-        var newPost = new Post(request.Id, user, request.Title, request.Content);
+        var newPost = new Post(request.Id, request.AuthorId, request.Title, request.Content);
 
         _unitOfWork.PostRepository.Update(newPost);
 

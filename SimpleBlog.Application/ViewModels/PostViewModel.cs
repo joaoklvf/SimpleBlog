@@ -22,6 +22,6 @@ namespace SimpleBlog.Application.ViewModels
 
         [Required(ErrorMessage = "O ID do usuário é obrigatório")]
         [DisplayName("ID do usuário")]
-        public required Guid UserId { get; set; }
+        public required Guid AuthorId { get; set; }
     }
 }

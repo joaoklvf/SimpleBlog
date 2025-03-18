@@ -28,6 +28,9 @@ public class PostMapping : IEntityTypeConfiguration<Post>
         builder.Property(p => p.UpdatedAt)
             .HasColumnType("datetime");
 
-        builder.OwnsOne(p => p.Author).HasKey(p => p.Id);
+        builder.HasOne(p => p.Author)
+            .WithMany(p => p.Posts)
+            .HasForeignKey(p => p.AuthorId)
+            .IsRequired();
     }
 }
