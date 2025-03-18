@@ -20,6 +20,8 @@ public class WebSocketController(IWebSocketService webSocketService) : Controlle
             _webSocketService.AddConnection(connectionId, webSocket);
 
             await Echo(webSocket);
+
+            _webSocketService.RemoveConnection(connectionId);
         }
         else
         {
