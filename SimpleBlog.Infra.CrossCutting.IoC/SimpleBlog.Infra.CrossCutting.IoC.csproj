@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleBlog.Application\SimpleBlog.Application.csproj" />
+    <ProjectReference Include="..\SimpleBlog.Domain\SimpleBlog.Domain.csproj" />
+    <ProjectReference Include="..\SimpleBlog.Infra.CrossCutting.Bus\SimpleBlog.Infra.CrossCutting.Bus.csproj" />
+    <ProjectReference Include="..\SimpleBlog.Infra.Data\SimpleBlog.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>
