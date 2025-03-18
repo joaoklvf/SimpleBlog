@@ -7,7 +7,7 @@ using SimpleBlog.Application.ViewModels;
 
 namespace SimpleBlog.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/posts")]
 [ApiController]
 public class PostController(IPostService postService) : ControllerBase
 {
@@ -22,7 +22,6 @@ public class PostController(IPostService postService) : ControllerBase
 
     // GET api/<ValuesController>/5
     [HttpGet("{id:guid}")]
-    [HttpGet]
     [AllowAnonymous]
     public IActionResult Get(Guid id)
     {
