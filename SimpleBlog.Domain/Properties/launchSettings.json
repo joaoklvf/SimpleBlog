@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SimpleBlog.Domain": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
