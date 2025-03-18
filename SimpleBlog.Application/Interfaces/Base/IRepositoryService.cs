@@ -1,6 +1,6 @@
 ﻿namespace SimpleBlog.Application.Interfaces.Base;
 
-public interface IBaseService<TRequest>
+public interface IRepositoryService<TRequest>
 {
     Task<TRequest> Add(TRequest serviceRequest);
     Task<TRequest> Edit(TRequest serviceRequest);

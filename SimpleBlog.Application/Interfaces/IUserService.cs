@@ -3,7 +3,7 @@ using SimpleBlog.Application.ViewModels;
 
 namespace SimpleBlog.Application.Interfaces
 {
-    public interface IUserService : IBaseService<UserViewModel>
+    public interface IUserService : IRepositoryService<UserViewModel>
     {
     }
 }
