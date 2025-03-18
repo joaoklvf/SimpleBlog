@@ -9,6 +9,7 @@ namespace SimpleBlog.Api.Controllers;
 
 [Route("api/users")]
 [ApiController]
+[Authorize]
 public class UserController(IUserService userService) : ControllerBase
 {
     private readonly IUserService _userService = userService;
@@ -31,6 +32,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateUser([FromBody] UserViewModel user)
     {
         var userCreated = await _userService.Add(user);

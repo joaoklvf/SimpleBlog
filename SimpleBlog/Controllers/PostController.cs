@@ -8,12 +8,14 @@ using SimpleBlog.Application.ViewModels;
 namespace SimpleBlog.Api.Controllers;
 
 [Route("api/posts")]
+[Authorize]
 [ApiController]
 public class PostController(IPostService postService) : ControllerBase
 {
     private readonly IPostService _postService = postService;
     // GET: api/<ValuesController>
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Get()
     {
         var posts = _postService.GetAll();
