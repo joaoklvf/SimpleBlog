@@ -29,5 +29,11 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        var myhandlers = AppDomain.CurrentDomain.Load("SimpleBlog.Application");
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblies(myhandlers);
+        });
     }
 }
