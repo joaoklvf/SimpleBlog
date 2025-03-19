@@ -1,9 +1,8 @@
 ﻿using SimpleBlog.Application.ViewModels;
 
-namespace SimpleBlog.Application.Interfaces
+namespace SimpleBlog.Application.Interfaces;
+
+public interface ILoginService
 {
-    public interface ILoginService
-    {
-        string Login(LoginViewModel loginViewModel);
-    }
+    string Login(LoginViewModel loginViewModel);
 }

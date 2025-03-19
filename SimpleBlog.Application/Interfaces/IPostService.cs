@@ -1,9 +1,8 @@
 ﻿using SimpleBlog.Application.Interfaces.Base;
 using SimpleBlog.Application.ViewModels;
 
-namespace SimpleBlog.Application.Interfaces
+namespace SimpleBlog.Application.Interfaces;
+
+public interface IPostService : IRepositoryService<PostViewModel>
 {
-    public interface IPostService : IRepositoryService<PostViewModel>
-    {
-    }
 }
