@@ -26,6 +26,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\SimpleBlog.Application\SimpleBlog.Application.csproj" />
 	  <ProjectReference Include="..\SimpleBlog.Infra.CrossCutting.IoC\SimpleBlog.Infra.CrossCutting.IoC.csproj" />
+	  <ProjectReference Include="..\SimpleBlog.Infra.Data\SimpleBlog.Infra.Data.csproj" />
 	</ItemGroup>
 
 </Project>

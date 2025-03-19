@@ -23,7 +23,6 @@ public class UserController(IUserService userService) : ControllerBase
 
     // GET api/<ValuesController>/5
     [HttpGet("{id:guid}")]
-    [AllowAnonymous]
     public IActionResult Get(Guid id)
     {
         var user = _userService.GetById(id);

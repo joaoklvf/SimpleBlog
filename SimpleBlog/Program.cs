@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using SimpleBlog.Api.Extensions.Services;
+using SimpleBlog.Api.Extensions.WebApp;
 using SimpleBlog.Api.Mapping;
 using SimpleBlog.Infra.CrossCutting.IoC;
 using SimpleBlog.Infra.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -13,41 +13,11 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddAuthentication().AddJwtBearer();
-builder.Services.AddAuthorization();
-builder.Services.AddAuthorizationBuilder()
-  .AddPolicy("admin_greetings", policy =>
-        policy
-            .RequireRole("admin")
-            .RequireClaim("scope", "greetings_api"));
-
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo API", Description = "Keep track of your tasks", Version = "v1" });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme.",
-    });
 
-    c.AddSecurityRequirement(
-      new OpenApiSecurityRequirement {
-        {
-          new OpenApiSecurityScheme {
-            Reference = new OpenApiReference {
-              Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-            }
-          },
-          Array.Empty <string>()
-        }
-      });
-});
+builder.Services.AddSwaggerServiceExtension();
+
+builder.Services.AddAuthServiceExtension(builder.Configuration);
 
 builder.Services.AddAutoMapper(x => x.AddProfile<MappingProfile>());
 
@@ -56,21 +26,17 @@ builder.Services.AddDbContext<AppDatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SimpleBlog.Api"));
 });
 
+var myhandlers = AppDomain.CurrentDomain.Load("SimpleBlog.Application");
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(myhandlers);
+});
+
 DependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
-    });
-}
+app.UseSwaggerAppExtension();
 
 app.UseCors();
 app.UseAuthentication();

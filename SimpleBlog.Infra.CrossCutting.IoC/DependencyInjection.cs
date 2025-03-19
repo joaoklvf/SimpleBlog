@@ -21,7 +21,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPostService, PostService>();
-        services.AddSingleton<IWebSocketService, WebSocketService>();
+        services.AddScoped<ILoginService, LoginService>();
 
         services.AddScoped<IRequestHandler<CreatePostCommand, Post>, CreatePostCommandHandler>();
         services.AddScoped<IRequestHandler<UpdatePostCommand, Post>, UpdatePostCommandHandler>();
@@ -31,10 +31,6 @@ public static class DependencyInjection
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        var myhandlers = AppDomain.CurrentDomain.Load("SimpleBlog.Application");
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssemblies(myhandlers);
-        });
+        services.AddSingleton<IWebSocketService, WebSocketService>();
     }
 }

@@ -40,4 +40,7 @@ public class UserService(IMapper mapper, IUserRepository userRepository, IEventB
 
         return _mapper.Map<UserViewModel>(userUpdated);
     }
+
+    public UserViewModel? GetUserByUsername(string username) =>
+         _mapper.Map<UserViewModel?>(_userRepository.GetByUsername(username));
 }
