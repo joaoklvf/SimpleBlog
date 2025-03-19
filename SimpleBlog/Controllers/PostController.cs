@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SimpleBlog.Application.Interfaces;
 using SimpleBlog.Application.ViewModels;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,7 +18,6 @@ public class PostController(IPostService postService) : ControllerBase
     [AllowAnonymous]
     public IActionResult Get()
     {
-        var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
         var posts = _postService.GetAll();
         return Ok(posts);
     }
