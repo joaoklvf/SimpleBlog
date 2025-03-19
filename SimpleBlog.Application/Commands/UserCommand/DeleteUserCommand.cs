@@ -2,8 +2,9 @@
 
 public class DeleteUserCommand : UserCommandBase
 {
-    public DeleteUserCommand(Guid id)
+    public DeleteUserCommand(Guid id, string userLoggedInId)
     {
         Id = id;
+        UserLoggedInId = userLoggedInId;
     }
 }

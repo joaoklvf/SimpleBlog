@@ -19,9 +19,9 @@ public class UserService(IMapper mapper, IUserRepository userRepository, IEventB
     public UserViewModel? GetById(Guid id) =>
          _mapper.Map<UserViewModel?>(_userRepository.GetById(id));
 
-    public async Task<bool> Remove(Guid id)
+    public async Task<bool> Remove(Guid id, string userLoggedInId)
     {
-        var deletedUser = await _bus.Send<DeleteUserCommand, User>(new DeleteUserCommand(id));
+        var deletedUser = await _bus.Send<DeleteUserCommand, User>(new DeleteUserCommand(id, userLoggedInId));
         return deletedUser != null;
     }
 

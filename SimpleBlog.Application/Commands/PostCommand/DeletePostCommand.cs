@@ -2,8 +2,9 @@
 
 public class DeletePostCommand : PostCommandBase
 {
-    public DeletePostCommand(Guid id)
+    public DeletePostCommand(Guid id, string userLoggedInId)
     {
         Id = id;
+        UserLoggedInId = userLoggedInId;
     }
 }

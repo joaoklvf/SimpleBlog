@@ -19,22 +19,22 @@ public class PostService(IMapper mapper, IPostRepository userRepository, IEventB
     public PostViewModel? GetById(Guid id) =>
          _mapper.Map<PostViewModel?>(_userRepository.GetById(id));
 
-    public async Task<bool> Remove(Guid id) { 
-        var deletedPost = await _bus.Send<DeletePostCommand, Post>(new DeletePostCommand(id));
+    public async Task<bool> Remove(Guid id, string userLoggedInId) { 
+        var deletedPost = await _bus.Send<DeletePostCommand, Post>(new DeletePostCommand(id, userLoggedInId));
         return deletedPost != null;
     }
 
-    public async Task<PostViewModel> Add(PostViewModel user)
+    public async Task<PostViewModel> Add(PostViewModel post)
     {
-        var createPostCommand = _mapper.Map<CreatePostCommand>(user);
+        var createPostCommand = _mapper.Map<CreatePostCommand>(post);
         var postCreated = await _bus.Send<CreatePostCommand, Post>(createPostCommand);
 
         return _mapper.Map<PostViewModel>(postCreated);
     }
 
-    public async Task<PostViewModel> Edit(PostViewModel user)
+    public async Task<PostViewModel> Edit(PostViewModel post)
     {
-        var updatePostCommand = _mapper.Map<UpdatePostCommand>(user);
+        var updatePostCommand = _mapper.Map<UpdatePostCommand>(post);
         var postUpdated = await _bus.Send<UpdatePostCommand, Post>(updatePostCommand);
 
         return _mapper.Map<PostViewModel>(postUpdated);

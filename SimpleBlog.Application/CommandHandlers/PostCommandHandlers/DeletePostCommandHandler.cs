@@ -2,6 +2,7 @@
 using SimpleBlog.Application.Commands.PostCommand;
 using SimpleBlog.Domain.Interfaces.Base;
 using SimpleBlog.Domain.Models;
+using System.Security.Authentication;
 
 namespace SimpleBlog.Application.CommandHandlers.PostCommandHandlers;
 
@@ -16,6 +17,9 @@ public class DeletePostCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
 
         var post =
             _unitOfWork.PostRepository.GetById(request.Id) ?? throw new InvalidOperationException("Post não encontrado.");
+
+        if (!post.AuthorId.ToString().Equals(request.UserLoggedInId))
+            throw new InvalidCredentialException("O usuário logado não é autor do post");
 
         _unitOfWork.PostRepository.Delete(post);
 

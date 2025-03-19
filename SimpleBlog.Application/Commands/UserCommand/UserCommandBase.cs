@@ -6,6 +6,7 @@ namespace SimpleBlog.Application.Commands.UserCommand;
 public abstract class UserCommandBase : IRequest<User>
 {
     public Guid Id { get; protected set; }
+    public string? UserLoggedInId { get; protected set; }
     public string UserName { get; protected set; } = string.Empty;
     public string Password { get; protected set; } = string.Empty;
     public string Name { get; protected set; } = string.Empty;

@@ -6,5 +6,5 @@ public interface IRepositoryService<TRequest>
     Task<TRequest> Edit(TRequest serviceRequest);
     IEnumerable<TRequest> GetAll();
     TRequest? GetById(Guid id);
-    Task<bool> Remove(Guid id);
+    Task<bool> Remove(Guid id, string userLoggedInId);
 }

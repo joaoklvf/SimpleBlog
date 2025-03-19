@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SimpleBlog.Application.Interfaces;
 using SimpleBlog.Application.ViewModels;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,7 +14,7 @@ namespace SimpleBlog.Api.Controllers;
 public class UserController(IUserService userService) : ControllerBase
 {
     private readonly IUserService _userService = userService;
-    // GET: api/<ValuesController>
+
     [HttpGet]
     public IActionResult Get()
     {
@@ -21,7 +22,6 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(users);
     }
 
-    // GET api/<ValuesController>/5
     [HttpGet("{id:guid}")]
     public IActionResult Get(Guid id)
     {
@@ -29,7 +29,6 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(user);
     }
 
-    // POST api/<ValuesController>
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> CreateUser([FromBody] UserViewModel user)
@@ -38,7 +37,6 @@ public class UserController(IUserService userService) : ControllerBase
         return CreatedAtAction(nameof(CreateUser), new { id = userCreated.Id }, userCreated);
     }
 
-    // PUT api/<ValuesController>/5
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Put(Guid id, [FromBody] UserViewModel user)
     {
@@ -48,11 +46,11 @@ public class UserController(IUserService userService) : ControllerBase
         return userUpdated is null ? NotFound("User não encontrado") : Ok(userUpdated);
     }
 
-    // DELETE api/<ValuesController>/5
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var isUserDeleted = await _userService.Remove(id);
+        var userLoggedId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var isUserDeleted = await _userService.Remove(id, userLoggedId);
         return isUserDeleted ? Ok() : BadRequest();
     }
 }
